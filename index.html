@@ -1924,10 +1924,15 @@ var fmsg  = document.getElementById('formMsg');
 
 cform?.addEventListener('submit', function(e) {
   e.preventDefault(); fmsg.textContent = '';
-  var payload = {
-    action: 'contact', name: document.getElementById('fname').value, email: document.getElementById('femail').value,
-    message: document.getElementById('fmsg').value, purpose: document.getElementById('fpurpose').value,
-    meetingDate: document.getElementById('fdate').value, meetingTime: document.getElementById('ftime').value
+ var payload = {
+    action: 'contact', 
+    name: document.getElementById('fname').value, 
+    email: document.getElementById('femail').value,
+    message: document.getElementById('fmsg').value, 
+    purpose: document.getElementById('fpurpose').value,
+    meetingDate: document.getElementById('fdate').value, 
+    meetingTime: document.getElementById('ftime').value,
+    color: currentAccent
   };
   cbtn.disabled = true; cbtn.textContent = 'Sending...';
 
