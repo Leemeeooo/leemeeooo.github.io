@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <title>Elizabeth Efeelobari Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,17 +26,23 @@
   --font-b:       'DM Sans', system-ui, sans-serif;
   --font-m:       'DM Mono', monospace;
   --ease:         cubic-bezier(0.25,0.46,0.45,0.94);
+  
+  /* FLUID TYPOGRAPHY: Scales between 14px and 18px automatically */
+  --base-fz: clamp(0.875rem, 0.8rem + 0.4vw, 1.125rem);
 }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden}
+html,body{height:100%;overflow:hidden; font-size: var(--base-fz);}
 body{
   font-family:var(--font-b);
   background:var(--bg);
   color:var(--text);
   display:flex;
   flex-direction:row;
+  /* Handles notches on modern iPhones */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
+
 button{cursor:pointer;font-family:var(--font-b)}
 a{color:inherit;text-decoration:none}
 ::-webkit-scrollbar{width:5px}
@@ -191,7 +197,7 @@ body::after{
 }
 .dash-greeting{
   font-family:var(--font-d);
-  font-size:3rem;font-weight:300;color:var(--text);line-height:1;
+  font-size:clamp(1.8rem, 5vw, 3rem); font-weight:300;color:var(--text);line-height:1;
 }
 .dash-greeting em{font-style:italic;color:var(--accent);transition:color 0.3s var(--ease)}
 .dash-tagline{
@@ -751,7 +757,7 @@ body::after{
   animation: womanWalkIn 2.2s cubic-bezier(0.4,0,0.25,1) 0.5s forwards;
 }
 @keyframes womanWalkIn {
-  0%   { right: -80px;  opacity: 1; }
+  0%    { right: -80px;  opacity: 1; }
   100% { right: 3.2rem; opacity: 1; }
 }
 #intro-woman.fade-away { animation: womanFade 0.8s ease forwards !important; }
@@ -947,27 +953,104 @@ body::after{
 #br-end-msg { font-family: var(--font-d); font-size: clamp(1.6rem, 3.5vw, 2.8rem); font-style: italic; color: #fff; line-height: 1.2; margin-bottom: 0.8rem; }
 #br-end-sub { font-family: var(--font-m); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); transition: color 0.3s; }
 
-@media(max-width:900px){
-  :root{--sidebar-w:58px}
-  .nav-label,.logo-text,.logo-badge{display:none}
-  .sidebar-logo{padding:1.2rem 0;justify-content:center}
-  .nav-item{padding:0.7rem 0;justify-content:center}
-  .sidebar-divider{margin:0.5rem 0.8rem}
-  .panel-inner{padding:4.5rem 1.6rem 3rem}
-  .proj-grid{grid-template-columns:repeat(2,1fr)}
-  .writing-grid,.research-layout,.about-layout,.contact-layout,.dash-grid{grid-template-columns:1fr}
-  .form-row{grid-template-columns:1fr}
-  .about-photo-wrap { position: static; margin-bottom: 2rem; }
-  .about-layout { grid-template-columns: 1fr; }
+@media (max-width: 1024px) {
+  :root { --sidebar-w: 70px; }
+  .logo-text, .logo-badge, .nav-label, .sidebar-divider, .sidebar-swatches { display: none; }
+  .sidebar-logo, .nav-item { justify-content: center; padding: 1rem 0; }
+  #main { margin-left: var(--sidebar-w); }
+  .dash-grid { grid-template-columns: 1fr; }
 }
-@media(max-width:600px){
-  .proj-grid{grid-template-columns:1fr}
-  .dash-stats-row{flex-wrap:wrap}
-  .dash-stat{flex:1 1 calc(50% - 1px);min-width:120px}
-  .about-photo, .about-photo-placeholder { width: 150px; height: 150px; }
-  .book-showcase { grid-template-columns: 1fr; gap: 1.5rem; text-align: center; }
-  .book-info { align-items: center; }
-  .sandbox-wrap { grid-template-columns: 1fr; }
+
+@media (max-width: 768px) {
+  #sidebar {
+    width: 100%;
+    height: 65px;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    flex-direction: row;
+    border-right: none;
+    border-top: 1px solid var(--border);
+    background: var(--sidebar-bg);
+  }
+  
+  #main { margin-left: 0; margin-bottom: 65px; }
+  
+  .sidebar-logo, .sidebar-bottom { display: none; }
+  
+  .sidebar-nav {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .nav-item {
+    flex: 1;
+    flex-direction: column;
+    padding: 0.5rem 0;
+    gap: 2px;
+    justify-content: center;
+  }
+  
+  .nav-item::before {
+    width: 100%; height: 3px; top: 0; left: 0; bottom: auto;
+    border-radius: 0 0 2px 2px;
+  }
+  
+  .nav-icon { font-size: 1.2rem; }
+  .nav-label { display: block; font-size: 0.6rem; opacity: 0.8; }
+
+  /* Hero Adjustments */
+  .dash-greeting { font-size: clamp(1.8rem, 8vw, 2.5rem); }
+  .panel-inner { padding: 4.5rem 1rem 2rem; }
+  
+  /* Layout Stacking */
+  .dash-stats-row { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 1px;
+  }
+  .dash-stat { padding: 1.2rem; border-right: 1px solid var(--border) !important; }
+  
+  .proj-grid, .proj-grid.layout-magazine, .proj-grid.layout-rows { grid-template-columns: 1fr !important; }
+  .layout-bar { display: none; }
+  
+  #intro-woman { 
+    transform: scale(0.65); 
+    right: 0.5rem !important; 
+    top: 3.5rem; 
+    opacity: 0.4;
+  }
+  #intro-bubble { display: none; }
+  
+  .topbar-crumb { font-size: 0.5rem; }
+  .topbar-right { gap: 0.5rem; }
+  .topbar-scene-select { display: none; }
+}
+
+@media (max-width: 320px) {
+  .dash-greeting { font-size: 1.4rem; }
+  .dash-stats-row { grid-template-columns: 1fr; }
+  .nav-label { display: none; }
+  .dash-hero { margin-bottom: 1rem; }
+  .dash-stat-num { font-size: 1.8rem; }
+  #topbar { padding: 0 0.8rem; }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+  #sidebar { width: 60px; height: 100%; top: 0; left: 0; bottom: 0; flex-direction: column; }
+  #main { margin-left: 60px; margin-bottom: 0; }
+  .sidebar-nav { flex-direction: column; }
+  .nav-label { display: none; }
+  #intro-woman { display: none; }
+}
+@media (pointer: coarse) {
+  .nav-item, .btn-submit, .pub-btn, .layout-btn {
+    min-height: 44px;
+  }
 }
 </style>
 </head>
